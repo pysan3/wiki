@@ -100,10 +100,12 @@ $$
 $$
 
 - $\mathrm{TwoAxis}$ converts from quaternion to rotation matrix and extracts the first two columns
-- $\bm{x}^{p_r}, \bm{x}^{r_r}$: denote the world space root position and orientation of the charactor
+- $\bm{x}^{p_r}, \bm{x}^{r_r}$: denote the world space root position and orientation of the character
 - $\otimes$: quaternion - quaternion multiplication or quaternion - vector product
 - Normalize them all
 
-## Algorithm
+## Algorithms
 
-![Train Policy $\Pi$](./alg-trailpolicy.PNG)
+![Train world model $\mathcal{W}$](./alg-trainworldmodel.PNG)
+
+![Train Policy $\mathcal{\Pi}$](./alg-trailpolicy.PNG)
