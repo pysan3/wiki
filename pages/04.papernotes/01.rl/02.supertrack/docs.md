@@ -104,8 +104,31 @@ $$
 - $\otimes$: quaternion - quaternion multiplication or quaternion - vector product
 - Normalize them all
 
-## Algorithms
+### Train the World Model $\mathcal{W}$.
+
+- Sample window of $N_\mathcal{W}=8$ frames from the data buffer
+- extract the simulated states $S$, and the PD target $T$
+- the first frame $S_0$ and the PD target are input into the network $\mathcal{W}$
+- the rigid body positional and rotational accelerations are computed (local to root)
+  - output: $\ddot{\bm{x}}^{lp}, \ddot{\bm{x}}^{lr} \in\mathbb{R}^3\rightarrow$ world position
+  - this is used to find the next state
+- compute states for the whole windows
+- ↑ explanation for single sample (actual training done using mini-batches)
 
 ![Train world model $\mathcal{W}$](./alg-trainworldmodel.PNG)
+
+- weights of contributions of losses are about equal
+- $\ominus$: quaternion difference
+
+### Train the Policy
+
+- sample a window of $N_\Pi=32$ frames from the data buffer
+- initial simulated state $S_0$ and target kinematic states $K$
+- network predicts the PD offsets $o$ from $S_0$ and $K$
+- gaussian noise is added to encourage state and action trajectory exploration
+- multiplied by the kinematic character joint rotations $\bm{k}^t$
+- paired with the kinematic character joint rotational velocities $\dot{\bm{k}}^t$
+- PD target are fed into the world model along with the predicted simulated state
+  - produce the next simulated state
 
 ![Train Policy $\mathcal{\Pi}$](./alg-trailpolicy.PNG)
